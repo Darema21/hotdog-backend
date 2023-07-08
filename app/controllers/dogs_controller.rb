@@ -1,2 +1,0 @@
-class DogsController < ApplicationController
-end
