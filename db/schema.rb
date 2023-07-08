@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_06_131629) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_08_043109) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_131629) do
     t.index ["owner_id"], name: "index_dogs_on_owner_id"
   end
 
+  create_table "matches", force: :cascade do |t|
+    t.string "status"
+    t.bigint "from_owner_id", null: false
+    t.bigint "to_owner_id", null: false
+    t.string "from_owner_decision"
+    t.string "to_owner_decision"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_owner_id"], name: "index_matches_on_from_owner_id"
+    t.index ["to_owner_id"], name: "index_matches_on_to_owner_id"
+  end
+
   create_table "owners", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -40,4 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_131629) do
   end
 
   add_foreign_key "dogs", "owners"
+  add_foreign_key "matches", "owners", column: "from_owner_id"
+  add_foreign_key "matches", "owners", column: "to_owner_id"
 end
