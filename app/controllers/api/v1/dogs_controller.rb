@@ -4,6 +4,14 @@ class Api::V1::DogsController < Api::V1::BaseController
     @dogs = Dog.includes(:owner, images_attachment: :blob).all
   end
 
+  def update
+    if @dog.update(dog_params)
+      render :show
+    else
+      render_error
+    end
+  end
+
   def create
     @dog = Dog.new(dog_params)
     if @dog.save
@@ -14,11 +22,12 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
   def upload_image
-
+    @dog = Dog.find(params[:id])
+    @dog.images.attach(params[:images])
   end
 
   def show
-
+    @dog = Dog.find(params[:id])
   end
 
   def destroy
@@ -32,7 +41,7 @@ class Api::V1::DogsController < Api::V1::BaseController
   private
 
   def dog_params
-    params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, :images)
+    params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
   end
 
   def render_error
@@ -41,3 +50,5 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
 end
+
+# index, create, update, show, destroy
