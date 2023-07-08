@@ -1,5 +1,3 @@
-json.dogs do
-  json.array! @dogs do |dog|
-    json.extract! dog, :id, :name, :gender, :age, :neutered, :vaccinated, :bio, :address, :images
-  end
+json.array! @dogs do |dog|
+  json.partial! 'api/v1/dogs/dog', { dog: dog}
 end
