@@ -19,7 +19,7 @@ class Api::V1::MatchesController < Api::V1::BaseController
   private
 
   def match_params
-    params.require(:match).permit(:)
+    # params.require(:match).permit(:) for now keep like this
   end
 
   def render_error
