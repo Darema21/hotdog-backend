@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_08_082323) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_144238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,35 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_08_082323) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "breeds", force: :cascade do |t|
+    t.string "name"
+    t.integer "good_with_children"
+    t.integer "good_with_other_dogs"
+    t.integer "shedding"
+    t.integer "grooming"
+    t.integer "drooling"
+    t.integer "coat_length"
+    t.integer "good_with_strangers"
+    t.integer "playfulness"
+    t.integer "protectiveness"
+    t.integer "trainability"
+    t.integer "energy"
+    t.integer "barking"
+    t.integer "min_life_expectancy"
+    t.integer "max_life_expectancy"
+    t.integer "max_height_male"
+    t.integer "max_height_female"
+    t.integer "max_weight_male"
+    t.integer "max_weight_female"
+    t.integer "min_height_male"
+    t.integer "min_height_female"
+    t.integer "min_weight_male"
+    t.integer "min_weight_female"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+  end
+
   create_table "dogs", force: :cascade do |t|
     t.string "name"
     t.string "gender"
@@ -53,6 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_08_082323) do
     t.bigint "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "breed"
     t.index ["owner_id"], name: "index_dogs_on_owner_id"
   end
 

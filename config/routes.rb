@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       end
 
       resources :matches, only: [:create, :show, :destroy]
+      resources :breeds, only: [:index, :show]
     end
   end
 

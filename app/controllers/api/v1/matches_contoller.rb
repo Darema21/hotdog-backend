@@ -1,4 +1,5 @@
 class Api::V1::MatchesController < Api::V1::BaseController
+
   def create
     dog = Dog.find(params[:dog_id]) #will change later after front-end is finished
     current_owner = Owner.find(params[:id])
