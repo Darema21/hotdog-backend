@@ -21,5 +21,4 @@ Rails.application.routes.draw do
       resources :matches, only: [:create, :show, :destroy]
     end
   end
-
 end
