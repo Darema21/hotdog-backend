@@ -1,10 +1,13 @@
 class Api::V1::DogsController < Api::V1::BaseController
 
   def index
-    @dogs = Dog.includes(:owner, images_attachment: :blob).all
+    # @dogs = policy_scope(Dog)
+    @dogs = policy_scope(Dog.includes(:owner, images_attachment: :blob)).all
   end
 
   def update
+    # authorize @dog
+
     if @dog.update(dog_params)
       render :show
     else
@@ -14,6 +17,10 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   def create
     @dog = Dog.new(dog_params)
+    @dog.owner = current_owner
+
+    authorize @dog
+
     if @dog.save
       render :show, status: :created
     else
@@ -27,10 +34,12 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
   def show
+    # authorize @dog
     @dog = Dog.find(params[:id])
   end
 
   def destroy
+    # authorize @dog
     if @dog.destroy
       head :no_content
     else
@@ -40,6 +49,11 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   private
 
+  def set_dog
+    @dog = Event.find(params[:id])
+    authorize @dog
+  end
+
   def dog_params
     params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
   end
@@ -48,7 +62,6 @@ class Api::V1::DogsController < Api::V1::BaseController
     render json: { errors: @dog.errors.full_messages },
     status: :unprocessable_entity
   end
-
 end
 
 # index, create, update, show, destroy
