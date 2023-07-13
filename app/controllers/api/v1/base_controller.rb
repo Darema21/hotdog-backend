@@ -6,6 +6,16 @@ class Api::V1::BaseController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :verify_request
 
+  include Pundit::Authorization
+
+   # Pundit: allow-list approach
+  after_action :verify_authorized, except: :index, unless: :skip_pundit?
+  after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+
+  def pundit_owner
+    @current_owner
+  end
+
   private
 
   def verify_request
