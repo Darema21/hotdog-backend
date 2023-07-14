@@ -1,5 +1,5 @@
 class Api::V1::BreedSerializer < ActiveModel::Serializer
-    attributes :name, :friendliness_index, :maintenance_index, :activity_index, :trainability_index,
+    attributes :name, :description, :friendliness_index, :maintenance_index, :activity_index, :trainability_index,
                :average_life_expectancy, :average_weight, :average_height, :photo
 
     def friendliness_index
