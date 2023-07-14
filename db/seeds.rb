@@ -1,10 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 require 'json'
 require 'open-uri'
 
@@ -25,7 +18,7 @@ breed_descriptions = {
 
 # Creating breeds
 base_url = "https://api.api-ninjas.com/v1/dogs?name="
-breed_names = ["Beagle", "Bulldog", "Chihuahua", "Corgi", "French Bulldog", "German Shepherd", "Golden Retriever", "Husky", "Labrador", "Pug", "Toy Poodle"]
+breed_names = ["Beagle", "Bulldog", "Chihuahua", "Corgi", "French Bulldog", "German Shepherd", "Golden Retriever", "Husky", "Labrador", "Parson Russell Terrier", "Pug", "Toy Poodle"]
 api_key = { 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC' }
 
 breed_names.each do |breed_name|
@@ -36,11 +29,11 @@ breed_names.each do |breed_name|
 
   next if breed_data_array.nil? || breed_data_array.empty?
 
-  if breed_name == "bulldog" || breed_name == "poodle"
+  if breed_name.downcase == "bulldog"
     breed_data_array.each do |breed_data|
-      Breed.create(
+      breed = Breed.create(
         name: breed_data['name'],
-        description: breed_descriptions[breed_data['name']], # Assigning the description
+        description: breed_descriptions[breed_data['name']],
         good_with_children: breed_data['good_with_children'],
         good_with_other_dogs: breed_data['good_with_other_dogs'],
         shedding: breed_data['shedding'],
@@ -62,15 +55,19 @@ breed_names.each do |breed_name|
         min_height_male: breed_data['min_height_male'],
         min_height_female: breed_data['min_height_female'],
         min_weight_male: breed_data['min_weight_male'],
-        min_weight_female: breed_data['min_weight_female']
+        min_weight_female: breed_data['min_weight_female'],
+        photo: ''
       )
+
+      file_path = Rails.root.join('app', 'assets', 'images', 'breeds', "#{breed_data['name'].downcase}.png")
+      breed.update(photo: "path/to/local/image.png") if File.exist?(file_path)
     end
   else
     breed_data = breed_data_array.first
 
-    Breed.create(
+    breed = Breed.create(
       name: breed_data['name'],
-      description: breed_descriptions[breed_data['name']], # Assigning the description
+      description: breed_descriptions[breed_data['name']],
       good_with_children: breed_data['good_with_children'],
       good_with_other_dogs: breed_data['good_with_other_dogs'],
       shedding: breed_data['shedding'],
@@ -92,7 +89,11 @@ breed_names.each do |breed_name|
       min_height_male: breed_data['min_height_male'],
       min_height_female: breed_data['min_height_female'],
       min_weight_male: breed_data['min_weight_male'],
-      min_weight_female: breed_data['min_weight_female']
+      min_weight_female: breed_data['min_weight_female'],
+      photo: ''
     )
+
+    file_path = Rails.root.join('app', 'assets', 'images', 'breeds', "#{breed_data['name'].downcase}.png")
+    breed.update(photo: "path/to/local/image.png") if File.exist?(file_path)
   end
 end

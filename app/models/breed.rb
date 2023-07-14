@@ -1,7 +1,5 @@
 class Breed < ApplicationRecord
-
-  validates :name, presence: true
-
-  has_one_attached :images
+  # has_one_attached :image
+  attr_accessor :photo
 
 end

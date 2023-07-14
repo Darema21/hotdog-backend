@@ -2,7 +2,7 @@ class Api::V1::BreedsController < Api::V1::BaseController
 
   def index
     @breeds = Breed.all
-    render json: @breeds.as_json(only: [:id, :name])
+    render json: @breeds.as_json(only: [:id, :name, :photo])
   end
 
 
