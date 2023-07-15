@@ -1,5 +1,5 @@
 class Breed < ApplicationRecord
-  # has_one_attached :image
-  attr_accessor :photo
+  has_one_attached :photo
+  # attr_accessor :photo
 
 end
