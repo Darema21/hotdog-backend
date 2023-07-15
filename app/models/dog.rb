@@ -10,5 +10,3 @@ class Dog < ApplicationRecord
   validates :bio, presence: true, length: { minimum: 5}
   validates :address, presence: true
 end
-
-#we also need to add image later
