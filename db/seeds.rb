@@ -1,9 +1,63 @@
+
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+#
+# Examples:
+#
+#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
+#   Character.create(name: "Luke", movie: movies.first)
+
+# db/seeds.rb
+require 'faker'
+
+
+# Disable the transactional behavior to improve performance
+ActiveRecord::Base.transaction do
+  # Create owners
+  puts "Creating Owners"
+  owners = []
+
+  5.times do
+    owner = Owner.create(
+      name: Faker::Name.name,
+      age: Faker::Number.between(from: 18, to: 65),
+      gender: Faker::Gender.binary_type,
+      bio: Faker::Lorem.paragraph,
+      wechat_id: Faker::Alphanumeric.alphanumeric(number: 6),
+      active: true
+      )
+
+    owners << owner
+  end
+
+  # Create dogs and assign random owners
+  puts "Creating Dogs"
+  10.times do
+    owner = owners.sample
+
+    Dog.create(
+      name: Faker::Creature::Dog.name,
+      gender: Faker::Creature::Dog.gender,
+      age: Faker::Number.between(from: 1, to: 10),
+      neutered: Faker::Boolean.boolean,
+      vaccinated: Faker::Boolean.boolean,
+      address: Faker::Address.full_address,
+      bio: Faker::Lorem.paragraph,
+      owner: owner
+      )
+  end
+
+  puts "Seed data created successfully!"
+end
 require 'json'
 require 'open-uri'
 
 # Breed descriptions
 breed_data = [
-  { name: 'American Bulldog', photo: 'app/assets/images/breeds/american_bulldog.png', description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.' },
+  { name: 'American Bulldog',
+  photo: 'app/assets/images/breeds/american_bulldog.png',
+  description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.'
+},
   { name: 'Beagle', photo: 'app/assets/images/breeds/beagle.png', description: 'The Beagle is a small to medium-sized dog breed known for its distinctive appearance and keen sense of smell. With its short, sleek coat and droopy ears, the Beagle is an adorable and friendly companion. They are often characterized by their playful and curious nature, making them great family pets.' },
   { name: 'Chihuahua', photo: 'app/assets/images/breeds/chihuahua.png', description: 'The Chihuahua is a tiny and lively dog breed known for its sassy personality and big personality. These pint-sized canines are often characterized by their large, round eyes and delicate features. Chihuahuas are highly devoted to their owners and thrive on companionship. Despite their small size, they are often fearless and confident, sometimes even displaying a bit of an attitude.' },
   { name: 'Corgi', photo: 'app/assets/images/breeds/corgi.png', description: 'The Corgi, specifically the Pembroke Welsh Corgi, is a small herding dog breed that is known for its adorable appearance and lively personality. They have a distinct body structure with short legs and a long torso. Corgis are highly intelligent and eager to please, making them easy to train. They are often energetic and playful, enjoying activities such as fetch and agility training.' },
@@ -16,33 +70,28 @@ breed_data = [
   { name: 'Pug', photo: 'app/assets/images/breeds/pug.png', description: 'The Pug is a small dog breed known for its distinctive appearance, with a wrinkled face, a curly tail, and large, expressive eyes. Pugs have a charming and mischievous personality, making them excellent companions for families and individuals. They have a friendly and affectionate nature, often seeking attention and close contact with their owners.' },
   { name: 'Poodle (Toy)', photo: 'app/assets/images/breeds/toy_poodle.png', description: 'The Toy Poodle is a small and elegant dog breed known for its intelligence, agility, and delightful personality. With their curly and dense coat, they are often considered one of the most hypoallergenic dog breeds. Toy Poodles are highly trainable and excel in activities such as obedience, agility, and even therapy work.' }
 ]
+Breed.destroy_all
 
 # Creating breeds
-base_url = "https://api.api-ninjas.com/v1/dogs?name="
-api_key = { 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC' }
-
+api_key = Rails.application.credentials.dig(:ninjas, :key)
 breed_data.each do |breed_info|
   breed_name = breed_info[:name]
   breed_description = breed_info[:description]
-  breed_photo = breed_info[:photo]
-  puts "Seeding #{breed_name}"
+  # breed_photo = URI.open(breed_info[:photo])
+  breed_photo = open(breed_info[:photo])
+  breed = Breed.create(name: breed_name, description: breed_description)
+  breed.photo.attach(io: breed_photo, filename: "#{breed_name.downcase.gsub(' ', '_')}.png", content_type: 'image/png')
 
   begin
+    base_url = "https://api.api-ninjas.com/v1/dogs?name="
     url = "#{base_url}#{breed_name}"
-    response = URI.open(url, api_key).read
+    response = URI.open(url,'X-Api-Key'=> 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC' ).read
     breed_data_array = JSON.parse(response)
 
     if breed_data_array.nil? || breed_data_array.empty?
       puts "No data found for breed #{breed_name}."
     else
       breed_data = breed_data_array.first
-
-      breed = Breed.create(
-        name: breed_name,
-        description: breed_description,
-        photo: breed_photo
-      )
-
       breed.update(
         good_with_children: breed_data['good_with_children'],
         good_with_other_dogs: breed_data['good_with_other_dogs'],
@@ -68,10 +117,9 @@ breed_data.each do |breed_info|
         min_weight_female: breed_data['min_weight_female']
       )
 
-      file_path = Rails.root.join('app', 'assets', 'images', 'breeds', "#{breed_name.downcase.gsub(' ', '_')}.png")
-      breed.update(photo: file_path) if File.exist?(file_path)
     end
   rescue StandardError => e
     puts "Error seeding breed #{breed_name}: #{e.message}"
   end
+
 end
