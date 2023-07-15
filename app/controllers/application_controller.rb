@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_owner!
+  before_action :verify_authenticity_token
+  # before_action :authenticate_owner!
   # include Pundit::Authorization
 
   # Pundit: allow-list approach

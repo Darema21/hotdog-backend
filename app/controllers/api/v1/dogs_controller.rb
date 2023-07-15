@@ -1,8 +1,9 @@
 class Api::V1::DogsController < Api::V1::BaseController
+  skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
 
   def index
-    # @dogs = policy_scope(Dog)
-    @dogs = policy_scope(Dog.includes(:owner, images_attachment: :blob)).all
+    @dogs = policy_scope(Dog).all
+    # @dogs = policy_scope(Dog.includes(:owner, images_attachment: :blob)).all
   end
 
   def update

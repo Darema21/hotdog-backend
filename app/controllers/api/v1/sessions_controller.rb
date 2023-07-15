@@ -5,6 +5,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   def login
     owner = find_owner
+    puts "Creating owner #{owner} "
 
     token = jwt_encode(owner_id: owner.id)
     render json: {
@@ -31,7 +32,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   def find_owner
     open_id = fetch_wx_open_id(params[:code])['openid']
     puts "open_id #{open_id}"
-    User.find_or_create_by(open_id: open_id)
+    Owner.find_or_create_by(open_id: open_id)
   end
 
   # generate JWT

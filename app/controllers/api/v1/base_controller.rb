@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ActionController::Base
-  rescue_from StandardError,                with: :internal_server_error
+  # rescue_from StandardError,                with: :internal_server_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   HMAC_SECRET = Rails.application.credentials.dig(:jwt, :hmac_secret)
@@ -12,7 +12,14 @@ class Api::V1::BaseController < ActionController::Base
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
 
-  def pundit_owner
+  # Uncomment when you *really understand* Pundit!
+  # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  # def user_not_authorized
+  #   flash[:alert] = "You are not authorized to perform this action."
+  #   redirect_to(root_path)
+  # end
+
+  def pundit_user
     @current_owner
   end
 
@@ -46,12 +53,16 @@ class Api::V1::BaseController < ActionController::Base
     render json: { error: exception.message }, status: :not_found
   end
 
-  def internal_server_error(exception)
-    if Rails.env.development?
-      response = { type: exception.class.to_s, error: exception.message }
-    else
-      response = { error: "Internal Server Error" }
-    end
-    render json: response, status: :internal_server_error
+  def skip_pundit?
+    params[:controller] =~ /(^(rails_)?admin)|(^sessions$)/
   end
+
+  # def internal_server_error(exception)
+  #   if Rails.env.development?
+  #     response = { type: exception.class.to_s, error: exception.message }
+  #   else
+  #     response = { error: "Internal Server Error" }
+  #   end
+  #   render json: response, status: :internal_server_error
+  # end
 end
