@@ -14,4 +14,9 @@ class Api::V1::BreedsController < Api::V1::BaseController
     render json: breed, serializer: Api::V1::BreedSerializer
   end
 
+  def upload_image
+    @dog = Breed.find(params[:id])
+    @dog.images.attach(params[:images])
+  end
+
 end

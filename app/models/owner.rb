@@ -3,10 +3,11 @@ class Owner < ApplicationRecord
   has_many :matches
   has_many :matched_dogs, through: :matches, source: :dog
 
-  validates :name, presence: true, length: { minimum: 2 }
+
+  validates :name, presence: true, length: { minimum: 2}
   validates :age, presence: true
   validates :gender, presence: true
-  validates :bio, presence: true, length: { minimum: 5 }
+  validates :bio, presence: true, length: { minimum: 5}
   validates :active, presence: true
 end
 
