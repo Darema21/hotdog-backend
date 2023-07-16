@@ -5,10 +5,10 @@ class Breed < ApplicationRecord
   #   Rails.application.routes.url_helpers.rails_blob_url(image) if image.attached?
   # end
 
-  # def image_url
-  #   if image.attached?
-  #     Cloudinary::Utils.cloudinary_url(image.key) # Use the Cloudinary URL helper
-  #   end
-  # end
+  def image_url
+    if image.attached?
+      Cloudinary::Utils.cloudinary_url(image.key) # Use the Cloudinary URL helper
+    end
+  end
 
 end

@@ -1,5 +1,11 @@
 class Api::V1::DogSerializer < ActiveModel::Serializer
-  attributes :id, :name, :gender, :age, :neutered, :vaccinated, :address, :bio, :breed, :owner
+  include Rails.application.routes.url_helpers
+
+  attributes :id, :name, :gender, :age, :neutered, :vaccinated, :address, :bio, :breed, :owner, :breed, :image_url
+
+  def image_url
+    object.image_url
+  end
 
   def owner
     {
@@ -8,9 +14,16 @@ class Api::V1::DogSerializer < ActiveModel::Serializer
       age: object.owner.age,
       gender: object.owner.gender,
       bio: object.owner.bio,
-      wechat_id: object.owner.wecchat_id,
+      wechat_id: object.owner.wechat_id,
       active: object.owner.active,
 
+    }
+  end
+
+  def breed
+    {
+      id: object.breed.id,
+      name: object.breed.name
     }
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_034848) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_16_122001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_034848) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "breed"
+    t.bigint "breed_id"
+    t.index ["breed_id"], name: "index_dogs_on_breed_id"
     t.index ["owner_id"], name: "index_dogs_on_owner_id"
   end
 
@@ -111,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_034848) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "dogs", "breeds"
   add_foreign_key "dogs", "owners"
   add_foreign_key "matches", "owners", column: "from_owner_id"
   add_foreign_key "matches", "owners", column: "to_owner_id"

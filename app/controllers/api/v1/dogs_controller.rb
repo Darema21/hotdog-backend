@@ -2,7 +2,7 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   def index
     @dogs = Dog.includes(:owner, images_attachments: :blob).all
-    render json: @dogs.as_json
+    render json: @dogs.as_json(only: [:id, :name, :gender, :neutered, :vaccinated, :owner], methods: :image_url)
   end
 
   def update
@@ -28,7 +28,8 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
   def show
-    @dog = Dog.find(params[:id])
+    dog = Dog.find(params[:id])
+    render json: dog, serializer: Api::V1::DogSerializer
   end
 
   def destroy
