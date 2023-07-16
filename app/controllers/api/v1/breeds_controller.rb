@@ -1,9 +1,10 @@
 class Api::V1::BreedsController < Api::V1::BaseController
 
   def index
-    @breeds = Breed.all
-    render json: @breeds.as_json(only: [:id, :name, :photo])
+    @breeds = Breed.includes(image_attachment: :blob).all
+    render json: @breeds.as_json(only: [:id, :name], methods: :image_url)
   end
+
 
 
 
@@ -11,6 +12,11 @@ class Api::V1::BreedsController < Api::V1::BaseController
     breed = Breed.find(params[:id])
     puts breed.inspect
     render json: breed, serializer: Api::V1::BreedSerializer
+  end
+
+  def upload_image
+    @dog = Breed.find(params[:id])
+    @dog.images.attach(params[:images])
   end
 
 end
