@@ -1,6 +1,6 @@
 class Api::V1::BreedSerializer < ActiveModel::Serializer
   attributes :name, :description, :friendliness_index, :maintenance_index, :activity_index, :trainability_index,
-             :average_life_expectancy, :average_weight, :average_height, :best_matches
+             :average_life_expectancy, :average_weight, :average_height, :best_matches, :image_attachment
 
   def friendliness_index
     (object.good_with_children + object.good_with_other_dogs + object.good_with_strangers) / 15.0

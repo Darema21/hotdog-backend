@@ -1,9 +1,10 @@
 class Api::V1::BreedsController < Api::V1::BaseController
 
   def index
-    @breeds = Breed.all
-    render json: @breeds.as_json(only: [:id, :name, :photo])
+    @breeds = Breed.includes(image_attachment: :blob).all
+    render json: @breeds.as_json(only: [:id, :name], methods: :image_url)
   end
+
 
 
 
