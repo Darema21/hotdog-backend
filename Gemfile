@@ -29,9 +29,9 @@ gem "jbuilder"
 
 gem "pundit"
 
-gem 'jwt'
+gem "jwt"
 
-gem 'rest-client'
+gem "rest-client"
 
 gem "cloudinary"
 

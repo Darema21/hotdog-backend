@@ -1,14 +1,14 @@
 class Api::V1::BaseController < ActionController::Base
-  # rescue_from StandardError,                with: :internal_server_error
+  rescue_from StandardError,                with: :internal_server_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   HMAC_SECRET = Rails.application.credentials.dig(:jwt, :hmac_secret)
   skip_before_action :verify_authenticity_token
   before_action :verify_request
-
   include Pundit::Authorization
 
-   # Pundit: allow-list approach
+  # Pundit: allow-list approach
+
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
 

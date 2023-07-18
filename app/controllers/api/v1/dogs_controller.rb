@@ -1,5 +1,5 @@
 class Api::V1::DogsController < Api::V1::BaseController
-  skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
+  # skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
 
   def index
     @dogs = policy_scope(Dog).all
