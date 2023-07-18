@@ -1,10 +1,10 @@
 class Api::V1::DogSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :name, :gender, :age, :neutered, :vaccinated, :address, :bio, :breed, :owner, :breed, :image_url
+  attributes :id, :name, :gender, :age, :neutered, :vaccinated, :address, :bio, :breed, :owner, :breed, :image_urls
 
-  def image_url
-    object.image_url
+  def image_urls
+    object.image_urls
   end
 
   def owner

@@ -2,7 +2,7 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   def index
     @dogs = Dog.includes(:owner, images_attachments: :blob).all
-    render json: @dogs.as_json(only: [:id, :name, :gender, :neutered, :vaccinated, :owner], methods: :image_url)
+    render json: @dogs.as_json(only: [:id, :name, :gender, :neutered, :vaccinated, :owner], methods: :image_urls)
   end
 
   def update

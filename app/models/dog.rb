@@ -11,10 +11,11 @@ class Dog < ApplicationRecord
   validates :bio, presence: true, length: { minimum: 5 }
   validates :address, presence: true
 
-  def image_url
-    if image.attached?
-      Cloudinary::Utils.cloudinary_url(image.key) # Use the Cloudinary URL helper
+  def image_urls
+    if images.attached?
+      images.map do |image|
+        Cloudinary::Utils.cloudinary_url(image.key) # Use the Cloudinary URL helper
+      end
     end
   end
-
 end
