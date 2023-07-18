@@ -99,6 +99,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_073414) do
   end
 
   create_table "owners", force: :cascade do |t|
+    t.string "open_id"
     t.string "name"
     t.integer "age"
     t.string "gender"
@@ -107,7 +108,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_073414) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "open_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

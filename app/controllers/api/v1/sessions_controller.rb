@@ -4,13 +4,14 @@ class Api::V1::SessionsController < Api::V1::BaseController
   # skip_after_action :verify_policy_scoped
 
   def login
+    puts " params >>> #{params}"
     code = params[:code]
-    puts "this is the #{code} from frontendS"
+    puts ">>> this is the #{code} from frontend <<<"
     owner = find_owner
 
-    puts "this is the new owner #{owner}"
+    puts ">>>> this is the new owner #{owner} <<<<< "
 
-    token = jwt_encode({owner_id: owner.id})
+    token = jwt_encode(owner_id: owner.id)
     render json: {
       headers: { "X-USER-TOKEN" => token },
       owner: owner
@@ -18,6 +19,12 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   private
+  # find or create user
+  def find_owner
+    open_id = fetch_wx_open_id(params[:code])['openid']
+    puts "open_id #{open_id}"
+    Owner.find_or_create_by(open_id: open_id)
+  end
 
   # retrieve/fetch open id
   def fetch_wx_open_id(code)
@@ -26,15 +33,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
     app_secret = Rails.application.credentials.dig(:wechat, :app_secret)
     url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{app_id}&secret=#{app_secret}&js_code=#{code}&grant_type=authorization_code"
     response = RestClient.get(url)
-    puts "response #{response}"
-    JSON.parse(response.body)
-  end
-
-  # find or create user
-  def find_owner
-    open_id = fetch_wx_open_id(params[:code])['openid']
-    puts "open_id #{open_id}"
-    Owner.find_or_create_by(open_id: open_id)
+    puts "response ==> #{response}"
+    JSON.parse(response) #***(response.body)
   end
 
   # generate JWT
