@@ -1,4 +1,3 @@
-
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -8,57 +7,13 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # db/seeds.rb
-require 'faker'
-
-
-# Disable the transactional behavior to improve performance
-ActiveRecord::Base.transaction do
-  # Create owners
-  puts "Creating Owners"
-  owners = []
-
-  5.times do
-    owner = Owner.create(
-      name: Faker::Name.name,
-      age: Faker::Number.between(from: 18, to: 65),
-      gender: Faker::Gender.binary_type,
-      bio: Faker::Lorem.paragraph,
-      wechat_id: Faker::Alphanumeric.alphanumeric(number: 6),
-      active: true
-      )
-
-    owners << owner
-  end
-
-  # Create dogs and assign random owners
-  puts "Creating Dogs"
-  10.times do
-    owner = owners.sample
-
-    Dog.create(
-      name: Faker::Creature::Dog.name,
-      gender: Faker::Creature::Dog.gender,
-      age: Faker::Number.between(from: 1, to: 10),
-      neutered: Faker::Boolean.boolean,
-      vaccinated: Faker::Boolean.boolean,
-      address: Faker::Address.full_address,
-      bio: Faker::Lorem.paragraph,
-      owner: owner
-      )
-  end
-
-  puts "Seed data created successfully!"
-end
 require 'json'
 require 'open-uri'
 
 # Breed descriptions
 breed_data = [
-  { name: 'American Bulldog',
-  image: 'app/assets/images/breeds/american_bulldog.png',
-  description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.'
-},
   { name: 'Beagle', image: 'app/assets/images/breeds/beagle.png', description: 'The Beagle is a small to medium-sized dog breed known for its distinctive appearance and keen sense of smell. With its short, sleek coat and droopy ears, the Beagle is an adorable and friendly companion. They are often characterized by their playful and curious nature, making them great family pets.' },
+  { name: 'Bulldog', image: 'app/assets/images/breeds/american_bulldog.png', description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.' },
   { name: 'Chihuahua', image: 'app/assets/images/breeds/chihuahua.png', description: 'The Chihuahua is a tiny and lively dog breed known for its sassy personality and big personality. These pint-sized canines are often characterized by their large, round eyes and delicate features. Chihuahuas are highly devoted to their owners and thrive on companionship. Despite their small size, they are often fearless and confident, sometimes even displaying a bit of an attitude.' },
   { name: 'Corgi', image: 'app/assets/images/breeds/corgi.png', description: 'The Corgi, specifically the Pembroke Welsh Corgi, is a small herding dog breed that is known for its adorable appearance and lively personality. They have a distinct body structure with short legs and a long torso. Corgis are highly intelligent and eager to please, making them easy to train. They are often energetic and playful, enjoying activities such as fetch and agility training.' },
   { name: 'French Bulldog', image: 'app/assets/images/breeds/french_bulldog.png', description: 'The French Bulldog, or Frenchie, is a small and compact dog breed with a unique appearance and a charming personality. With their bat-like ears and expressive eyes, French Bulldogs are instantly recognizable. They have a friendly and affectionate disposition and are known for being great companions. Despite their small size, French Bulldogs have a sturdy build and a playful nature.' },
@@ -76,7 +31,9 @@ Breed.destroy_all
 api_key = Rails.application.credentials.dig(:ninjas, :key)
 breed_data.each do |breed_info|
   breed_name = breed_info[:name]
+  puts "Creating #{breed_name}"
   breed_description = breed_info[:description]
+
   # breed_image = URI.open(breed_info[:image])
   breed_image = open(breed_info[:image])
   breed = Breed.create(name: breed_name, description: breed_description)
@@ -85,7 +42,7 @@ breed_data.each do |breed_info|
   begin
     base_url = "https://api.api-ninjas.com/v1/dogs?name="
     url = "#{base_url}#{breed_name}"
-    response = URI.open(url,'X-Api-Key'=>api_key ).read
+    response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
     breed_data_array = JSON.parse(response)
 
     if breed_data_array.nil? || breed_data_array.empty?
@@ -116,10 +73,58 @@ breed_data.each do |breed_info|
         min_weight_male: breed_data['min_weight_male'],
         min_weight_female: breed_data['min_weight_female']
       )
-
     end
   rescue StandardError => e
     puts "Error seeding breed #{breed_name}: #{e.message}"
   end
-
 end
+
+require 'faker'
+
+breed_names = ['Beagle', 'Bulldog', 'Chihuahua', 'Corgi', 'French Bulldog', 'German Shepherd', 'Golden Retriever', 'Husky', 'Labrador', 'Parson Russell Terrier', 'Pug', 'Poodle (Toy)']
+
+# Create owners
+puts "Creating Owners"
+owners = []
+
+5.times do
+  owner = Owner.create(
+    name: Faker::Name.name,
+    age: Faker::Number.between(from: 18, to: 65),
+    gender: Faker::Gender.binary_type,
+    bio: Faker::Lorem.paragraph,
+    wechat_id: Faker::Alphanumeric.alphanumeric(number: 6),
+    active: true
+  )
+
+  owners << owner
+end
+
+puts "Created #{owners.length} owners"
+
+# Create dogs and assign each dog to a unique owner
+# Create dogs and assign each dog to a unique owner
+puts "Creating Dogs"
+breeds = Breed.all
+
+owners.each do |owner|
+  puts "Creating Dogs for #{owner.name}"
+  breed = breeds.sample
+  5.times do
+    dog = Dog.create(
+      name: Faker::Creature::Dog.name,
+      gender: Faker::Creature::Dog.gender,
+      age: Faker::Number.between(from: 1, to: 10),
+      neutered: Faker::Boolean.boolean,
+      vaccinated: Faker::Boolean.boolean,
+      address: Faker::Address.full_address,
+      bio: Faker::Lorem.paragraph,
+      owner: owner,
+      breed: breed
+    )
+    puts "Dog #{dog.name} (#{breed.name}) was created"
+  end
+end
+
+
+puts "Seed data created successfully!"
