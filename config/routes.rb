@@ -12,14 +12,17 @@ Rails.application.routes.draw do
           post :upload_image
         end
       end
-      resources :owners, only: [:show, :update, :deactivate] do
+      resources :owners, only: [:index, :show, :update] do
         member do
-          get :matches
+          get :matches, only: [:show, :destroy]
+          post :matches, to: 'matches#create'
         end
       end
-
-      resources :matches, only: [:create, :show, :destroy]
       resources :breeds, only: [:index, :show]
+
+      # get 'breeds/:id', to: 'breeds#show_by_id', as: :breed_by_id
+      # get 'breeds/name/:name', to: 'breeds#show_by_name', as: :breed_by_name
+
     end
   end
 
