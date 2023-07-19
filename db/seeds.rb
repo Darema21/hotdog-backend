@@ -33,6 +33,8 @@ breed_data.each do |breed_info|
   breed_name = breed_info[:name]
   puts "Creating #{breed_name}"
   breed_description = breed_info[:description]
+
+  # breed_image = URI.open(breed_info[:image])
   breed_image = open(breed_info[:image])
   breed = Breed.create(name: breed_name, description: breed_description)
   breed.image.attach(io: breed_image, filename: "#{breed_name.downcase.gsub(' ', '_')}.png", content_type: 'image/png')
