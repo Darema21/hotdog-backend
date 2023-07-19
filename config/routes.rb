@@ -12,7 +12,7 @@ Rails.application.routes.draw do
           post :upload_image
         end
       end
-      resources :owners, only: [:index, :show, :update] do
+      resources :owners, only: [:show, :update] do
         member do
           get :matches, only: [:show, :destroy]
           post :matches, to: 'matches#create'

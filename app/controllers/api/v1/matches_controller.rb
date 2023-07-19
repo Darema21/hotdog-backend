@@ -13,6 +13,11 @@ class Api::V1::MatchesController < Api::V1::BaseController
 
     if existing_match
       existing_match.to_owner_decision = direction
+      if existing_match.to_owner_decision == "right" && existing_match.from_owner_decision  == "right"
+        existing_match.status = "like"
+      else
+        existing_match.status = "dislike"
+      end
       existing_match.save!
       render json: existing_match
     else
