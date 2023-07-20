@@ -2,9 +2,10 @@ class Api::V1::DogsController < Api::V1::BaseController
   # skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
 
   def index
-    @dogs = policy_scope(Dog).all
+    # @dogs = policy_scope(Dog).all
     # @dogs = policy_scope(Dog.includes(:owner, images_attachment: :blob)).all
-  end
+    @dogs = Dog.includes(:owner, images_attachments: :blob).all
+    render json: @dogs.as_json(only: [:id, :name, :gender, :neutered, :vaccinated, :owner], methods: :image_urls)
 
   def update
     # authorize @dog
@@ -36,7 +37,8 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   def show
     # authorize @dog
-    @dog = Dog.find(params[:id])
+    dog = Dog.find(params[:id])
+    render json: dog, serializer: Api::V1::DogSerializer
   end
 
   def destroy

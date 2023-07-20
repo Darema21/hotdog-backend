@@ -34,8 +34,8 @@ gem "jwt"
 gem "rest-client"
 
 gem "cloudinary"
-
-# gem "dotenv-rails", groups: [:development, :test]
+gem "faker"
+gem "dotenv-rails", groups: [:development, :test]
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -57,6 +57,7 @@ gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+gem 'active_model_serializers'
 
 gem "bootstrap", "~> 5.2"
 gem "autoprefixer-rails"
