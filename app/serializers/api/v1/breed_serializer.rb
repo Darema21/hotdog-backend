@@ -5,7 +5,7 @@ class Api::V1::BreedSerializer < ActiveModel::Serializer
              :average_life_expectancy, :average_weight, :average_height, :best_matches, :image_url
 
   def image_url
-    object.image_url
+    object.image.key
   end
 
   def friendliness_index
@@ -29,12 +29,15 @@ class Api::V1::BreedSerializer < ActiveModel::Serializer
   end
 
   def average_weight
-    (object.max_weight_male + object.min_weight_male + object.max_weight_female + object.min_weight_female) / 4.0
+    weight_in_kg = (object.max_weight_male + object.min_weight_male + object.max_weight_female + object.min_weight_female) / 4.0 * 0.45
+    weight_in_kg.round(1) # Round to 1 decimal place
   end
 
   def average_height
-    (object.max_height_male + object.min_height_male + object.max_height_female + object.min_height_female) / 4.0
+    height_in_cm = (object.max_height_male + object.min_height_male + object.max_height_female + object.min_height_female) / 4.0 * 2.54
+    height_in_cm.round # Round to the nearest whole number
   end
+
 
   # def best_matches
   #   target_breed = object
