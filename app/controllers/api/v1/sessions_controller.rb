@@ -5,6 +5,10 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   def login
     owner = find_user
+    # puts "---------------------------"
+    # puts owner
+    # puts owner.id
+    # puts "---------------------------"
 
     token = jwt_encode(owner_id: owner.id)
     render json: {
@@ -35,6 +39,10 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   # generate JWT
   def jwt_encode(payload)
+    # puts "---------------------------"
+    # puts payload
+    # puts "---------------------------"
+
     JWT.encode payload, HMAC_SECRET, 'HS256'
   end
 end

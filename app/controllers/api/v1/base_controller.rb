@@ -3,8 +3,13 @@ class Api::V1::BaseController < ActionController::Base
   # rescue_from StandardError,                with: :internal_server_error
   # rescue_from ActiveRecord::RecordNotFound, with: :not_found
   HMAC_SECRET = Rails.application.credentials.dig(:jwt, :hmac_secret)
+
+  # puts "------------------------------------"
+  # puts "HMAC_SECRET"
+  # puts HMAC_SECRET
+  # puts "-----------------------------------------"
   skip_before_action :verify_authenticity_token
-  # before_action :verify_request, except: [:index]
+  before_action :verify_request, except: [:index]
 
   private
 
