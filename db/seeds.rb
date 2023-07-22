@@ -79,16 +79,46 @@ breed_data.each do |breed_info|
     puts "Error seeding breed #{breed_name}: #{e.message}"
   end
 end
-
 require 'faker'
+require 'json'
+require 'open-uri'
 
-breed_names = ['Beagle', 'Bulldog', 'Chihuahua', 'Corgi', 'French Bulldog', 'German Shepherd', 'Golden Retriever', 'Husky', 'Labrador', 'Parson Russell Terrier', 'Pug', 'Poodle (Toy)']
+# dog_url = "https://api.unsplash.com/search/photos?query=dog&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+# owner_url = "https://api.unsplash.com/search/photos?query=person&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+
+# Function to download an image from the given URL
+def download_image(url)
+  open(url) { |image| image.read }
+end
+
+# URLs for specific dog and owner images
+# dog_image_urls = [
+#   "https://images.unsplash.com/photo-1518374835801-2c7d993de05c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+#   "https://images.unsplash.com/photo-1583511655802-41f2ccc2cc8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQxfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1562714529-94d65989df68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1612940960267-4549a58fb257?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE3fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1572566830488-069bcc7fbcec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE1fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1618173745201-8e3bf8978acc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEwfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1588269864631-ced7dff8da0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+# ]
+
+# owner_image_urls = [
+#   "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1748&q=80",
+#   "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTExfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1589696485114-9e2f81d83484?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTIyfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA0fHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1525875975471-999f65706a10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTR8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1615813967515-e1838c1c5116?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+# ]
 
 # Create owners
 puts "Creating Owners"
 owners = []
 
-5.times do
+10.times do |i|
   owner = Owner.create(
     name: Faker::Name.name,
     age: Faker::Number.between(from: 18, to: 65),
@@ -98,20 +128,25 @@ owners = []
     active: true
   )
 
+  # Attach owner photo using the specified URL
+  # owner_photo_url = owner_image_urls[i]
+  # owner.photo.attach(io: download_image(owner_photo_url), filename: "#{owner.name.parameterize}_owner.jpg", content_type: 'image/jpeg')
+
   owners << owner
 end
 
 puts "Created #{owners.length} owners"
 
 # Create dogs and assign each dog to a unique owner
-# Create dogs and assign each dog to a unique owner
 puts "Creating Dogs"
 breeds = Breed.all
+
+dogs = []
 
 owners.each do |owner|
   puts "Creating Dogs for #{owner.name}"
   breed = breeds.sample
-  5.times do
+  1.times do
     dog = Dog.create(
       name: Faker::Creature::Dog.name,
       gender: Faker::Creature::Dog.gender,
@@ -123,9 +158,15 @@ owners.each do |owner|
       owner: owner,
       breed: breed
     )
-    puts "Dog #{dog.name} (#{breed.name}) was created"
+
+    # Attach dog photo using the specified URL
+    # dog_photo_url = dog_image_urls.sample
+    # dog.images.attach(io: download_image(dog_photo_url), filename: "#{dog.name.parameterize}_dog.jpg", content_type: 'image/jpeg')
+    "created a dog for Owner #{owner.id}"
+    dogs << dog
   end
 end
 
+puts "Created #{dogs.length} dogs"
 
 puts "Seed data created successfully!"

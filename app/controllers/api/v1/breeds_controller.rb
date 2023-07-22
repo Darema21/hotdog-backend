@@ -7,7 +7,6 @@ class Api::V1::BreedsController < Api::V1::BaseController
 
   def show
     breed = Breed.find(params[:id])
-    puts breed.inspect
     render json: breed, serializer: Api::V1::BreedSerializer
   end
 
