@@ -14,7 +14,7 @@ class Dog < ApplicationRecord
   def image_urls
     if images.attached?
       images.map do |image|
-        Cloudinary::Utils.cloudinary_url(image.key) # Use the Cloudinary URL helper
+        Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true)
       end
     end
   end
