@@ -11,6 +11,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
     # puts "---------------------------"
 
     token = jwt_encode(owner_id: owner.id)
+
+
     render json: {
       headers: { "X-USER-TOKEN" => token },
       owner: owner
@@ -34,7 +36,12 @@ class Api::V1::SessionsController < Api::V1::BaseController
   def find_user
     open_id = fetch_wx_open_id(params[:code])['openid']
     puts "open_id #{open_id}"
-    Owner.find_or_create_by(open_id: open_id)
+    owner = Owner.find_or_create_by(open_id: open_id)
+    p "----------------------"
+    p "current owner: "
+    p owner
+    p "----------------------"
+    return owner
   end
 
   # generate JWT

@@ -7,10 +7,10 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # db/seeds.rb
-# require 'json'
-# require 'open-uri'
+require 'json'
+require 'open-uri'
 
-# # Breed descriptions
+# Breed descriptions
 # breed_data = [
 #   { name: 'Beagle', image: 'app/assets/images/breeds/beagle.png', description: 'The Beagle is a small to medium-sized dog breed known for its distinctive appearance and keen sense of smell. With its short, sleek coat and droopy ears, the Beagle is an adorable and friendly companion. They are often characterized by their playful and curious nature, making them great family pets.' },
 #   { name: 'Bulldog', image: 'app/assets/images/breeds/american_bulldog.png', description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.' },
@@ -27,7 +27,7 @@
 # ]
 # Breed.destroy_all
 
-# # Creating breeds
+# # # Creating breeds
 # api_key = Rails.application.credentials.dig(:ninjas, :key)
 # breed_data.each do |breed_info|
 #   breed_name = breed_info[:name]
@@ -39,12 +39,12 @@
 #   breed = Breed.create(name: breed_name, description: breed_description)
 #   breed.image.attach(io: breed_image, filename: "#{breed_name.downcase.gsub(' ', '_')}.png", content_type: 'image/png')
 
-  begin
-    base_url = "https://api.api-ninjas.com/v1/dogs?name="
-    url = "#{base_url}#{breed_name}"
-    response = URI.open(url,'X-Api-Key'=>api_key ).read
-    #response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
-    breed_data_array = JSON.parse(response)
+#   begin
+#     base_url = "https://api.api-ninjas.com/v1/dogs?name="
+#     url = "#{base_url}#{breed_name}"
+#     # response = URI.open(url,'X-Api-Key'=>api_key ).read
+#     response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
+#     breed_data_array = JSON.parse(response)
 
 #     if breed_data_array.nil? || breed_data_array.empty?
 #       puts "No data found for breed #{breed_name}."
@@ -79,19 +79,20 @@
 #     puts "Error seeding breed #{breed_name}: #{e.message}"
 #   end
 # end
-require 'faker'
-require 'json'
-require 'open-uri'
 
-# dog_url = "https://api.unsplash.com/search/photos?query=dog&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
-# owner_url = "https://api.unsplash.com/search/photos?query=person&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+# require 'faker'
+# require 'json'
+# require 'open-uri'
 
-# Function to download an image from the given URL
-def download_image(url)
-  open(url) { |image| image.read }
-end
+# # dog_url = "https://api.unsplash.com/search/photos?query=dog&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+# # owner_url = "https://api.unsplash.com/search/photos?query=person&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
 
-# URLs for specific dog and owner images
+# # Function to download an image from the given URL
+# # def download_image(url)
+# #   open(url) { |image| image.read }
+# # end
+
+# # URLs for specific dog and owner images
 dog_image_urls = [
   "https://images.unsplash.com/photo-1518374835801-2c7d993de05c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
   "https://images.unsplash.com/photo-1583511655802-41f2ccc2cc8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQxfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
@@ -103,48 +104,48 @@ dog_image_urls = [
   "https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
 ]
 
-owner_image_urls = [
-  "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1748&q=80",
-  "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTExfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1589696485114-9e2f81d83484?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTIyfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA0fHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1525875975471-999f65706a10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTR8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1615813967515-e1838c1c5116?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
-]
+# owner_image_urls = [
+#   "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1748&q=80",
+#   "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTExfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1589696485114-9e2f81d83484?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTIyfHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA0fHxwZXJzb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1525875975471-999f65706a10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTR8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1615813967515-e1838c1c5116?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+# ]
 
-# Create owners
-puts "Creating Owners"
-owners = []
+# # # Create owners
+# puts "Creating Owners"
+# owners = []
 
-10.times do |i|
-  owner = Owner.create(
-    name: Faker::Name.name,
-    age: Faker::Number.between(from: 18, to: 65),
-    gender: Faker::Gender.binary_type,
-    bio: Faker::Lorem.paragraph,
-    wechat_id: Faker::Alphanumeric.alphanumeric(number: 6),
-    active: true
-  )
+# 10.times do |i|
+#   owner = Owner.create(
+#     name: Faker::Name.name,
+#     age: Faker::Number.between(from: 18, to: 65),
+#     gender: Faker::Gender.binary_type,
+#     bio: Faker::Lorem.paragraph,
+#     wechat_id: Faker::Alphanumeric.alphanumeric(number: 6),
+#     active: true
+#   )
 
-  puts "add photos"
-  puts i
-  # Attach owner photo using the specified URL
-  owner_photo_file = URI.open(owner_image_urls.sample)
-  owner.photo.attach(io: owner_photo_file, filename: "#{owner.name.parameterize}_owner.jpg", content_type: 'image/jpg')
+#   puts "add photos"
+#   puts i
+#   # Attach owner photo using the specified URL
+#   owner_photo_file = URI.open(owner_image_urls.sample)
+#   owner.photo.attach(io: owner_photo_file, filename: "#{owner.name.parameterize}_owner.jpg", content_type: 'image/jpg')
 
-  owners << owner
-end
+#   owners << owner
+# end
 
-puts "Created #{owners.length} owners"
+# puts "Created #{owners.length} owners"
 
-# Create dogs and assign each dog to a unique owner
-puts "Creating Dogs"
+# # # Create dogs and assign each dog to a unique owner
+# puts "Creating Dogs"
 breeds = Breed.all
 
 dogs = []
-
+owners = Owner.all
 owners.each do |owner|
   puts "Creating Dogs for #{owner.name}"
   breed = breeds.sample
@@ -161,7 +162,7 @@ owners.each do |owner|
       breed: breed
     )
 
-    # Attach dog photo using the specified URL
+#     # Attach dog photo using the specified URL
     dog_photo_file = URI.open(dog_image_urls.sample)
     dog.images.attach(io: dog_photo_file, filename: "#{dog.name.parameterize}_dog.jpg", content_type: 'image/jpeg')
     "created a dog for Owner #{owner.id}"
@@ -172,3 +173,23 @@ end
 puts "Created #{dogs.length} dogs"
 
 puts "Seed data created successfully!"
+
+# # Find the owner with to_owner_id = 2
+to_owner = Owner.find_by(id:11)
+dogs  = Dog.all
+# Create matches
+puts "Creating Matches"
+matches = []
+
+dogs.each do |dog|
+  match = Match.create(
+    status: "undecided",
+    from_owner_id: dog.owner.id,
+    to_owner_id: to_owner.id,
+    from_owner_decision: "right"
+  )
+
+  matches << match
+end
+
+puts "Finished seeding"
