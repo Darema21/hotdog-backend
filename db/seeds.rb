@@ -39,11 +39,12 @@
 #   breed = Breed.create(name: breed_name, description: breed_description)
 #   breed.image.attach(io: breed_image, filename: "#{breed_name.downcase.gsub(' ', '_')}.png", content_type: 'image/png')
 
-#   begin
-#     base_url = "https://api.api-ninjas.com/v1/dogs?name="
-#     url = "#{base_url}#{breed_name}"
-#     response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
-#     breed_data_array = JSON.parse(response)
+  begin
+    base_url = "https://api.api-ninjas.com/v1/dogs?name="
+    url = "#{base_url}#{breed_name}"
+    response = URI.open(url,'X-Api-Key'=>api_key ).read
+    #response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
+    breed_data_array = JSON.parse(response)
 
 #     if breed_data_array.nil? || breed_data_array.empty?
 #       puts "No data found for breed #{breed_name}."
