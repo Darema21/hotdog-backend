@@ -1,4 +1,5 @@
 class Api::V1::MatchesController < Api::V1::BaseController
+
   skip_before_action :verify_authenticity_token
 
   def create
@@ -36,8 +37,7 @@ class Api::V1::MatchesController < Api::V1::BaseController
       end
     end
   end
-
-
+  
   # def index
   #   @matches = Match.includes(:owner, :dog).all
   #   current_owner = @current_owner
