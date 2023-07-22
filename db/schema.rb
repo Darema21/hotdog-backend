@@ -108,7 +108,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_151919) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar"
     t.string "open_id"
   end
 
