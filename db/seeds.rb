@@ -43,7 +43,6 @@ breed_data.each do |breed_info|
     base_url = "https://api.api-ninjas.com/v1/dogs?name="
     url = "#{base_url}#{breed_name}"
     response = URI.open(url,'X-Api-Key'=>api_key ).read
-    # response = URI.open(url, 'X-Api-Key' => 'Cqi1z+e5/4SUPNJX4yz3gA==RnQVVVLkceE3dqQC').read
     breed_data_array = JSON.parse(response)
 
     if breed_data_array.nil? || breed_data_array.empty?
