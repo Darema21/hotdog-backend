@@ -16,6 +16,10 @@ Rails.application.routes.draw do
         member do
           get :matches, only: [:show, :destroy]
           post :matches, to: 'matches#create'
+          # resources :comments, only: [:show, :create], module: :matches
+        end
+        resources :matches, only: [] do
+          resources :comments, only: [:show, :create]
         end
       end
       resources :breeds, only: [:index, :show]
