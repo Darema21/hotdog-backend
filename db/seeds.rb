@@ -142,37 +142,37 @@ dog_image_urls = [
 
 # # # Create dogs and assign each dog to a unique owner
 # puts "Creating Dogs"
-breeds = Breed.all
+# breeds = Breed.all
 
-dogs = []
-owners = Owner.all
-owners.each do |owner|
-  puts "Creating Dogs for #{owner.name}"
-  breed = breeds.sample
-  1.times do
-    dog = Dog.create(
-      name: Faker::Creature::Dog.name,
-      gender: Faker::Creature::Dog.gender,
-      age: Faker::Number.between(from: 1, to: 10),
-      neutered: Faker::Boolean.boolean,
-      vaccinated: Faker::Boolean.boolean,
-      address: Faker::Address.full_address,
-      bio: Faker::Lorem.paragraph,
-      owner: owner,
-      breed: breed
-    )
+# dogs = []
+# owners = Owner.all
+# owners.each do |owner|
+#   puts "Creating Dogs for #{owner.name}"
+#   breed = breeds.sample
+#   1.times do
+#     dog = Dog.create(
+#       name: Faker::Creature::Dog.name,
+#       gender: Faker::Creature::Dog.gender,
+#       age: Faker::Number.between(from: 1, to: 10),
+#       neutered: Faker::Boolean.boolean,
+#       vaccinated: Faker::Boolean.boolean,
+#       address: Faker::Address.full_address,
+#       bio: Faker::Lorem.paragraph,
+#       owner: owner,
+#       breed: breed
+#     )
 
-#     # Attach dog photo using the specified URL
-    dog_photo_file = URI.open(dog_image_urls.sample)
-    dog.images.attach(io: dog_photo_file, filename: "#{dog.name.parameterize}_dog.jpg", content_type: 'image/jpeg')
-    "created a dog for Owner #{owner.id}"
-    dogs << dog
-  end
-end
+# #     # Attach dog photo using the specified URL
+#     dog_photo_file = URI.open(dog_image_urls.sample)
+#     dog.images.attach(io: dog_photo_file, filename: "#{dog.name.parameterize}_dog.jpg", content_type: 'image/jpeg')
+#     "created a dog for Owner #{owner.id}"
+#     dogs << dog
+#   end
+# end
 
-puts "Created #{dogs.length} dogs"
+# puts "Created #{dogs.length} dogs"
 
-puts "Seed data created successfully!"
+# puts "Seed data created successfully!"
 
 # # Find the owner with to_owner_id = 2
 to_owner = Owner.find_by(id:11)

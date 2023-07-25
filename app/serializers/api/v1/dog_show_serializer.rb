@@ -15,8 +15,8 @@ class Api::V1::DogShowSerializer < ActiveModel::Serializer
       gender: object.owner.gender,
       bio: object.owner.bio,
       wechat_id: object.owner.wechat_id,
-      active: object.owner.active,
-
+      image_url: object.owner.image_url,
+      active: object.owner.active
     }
   end
 
