@@ -1,4 +1,5 @@
 class Api::V1::DogsController < Api::V1::BaseController
+  before_action :verify_request
 
   def index
     # @dogs = Dog.includes(:owner, images_attachments: :blob).all
@@ -7,7 +8,7 @@ class Api::V1::DogsController < Api::V1::BaseController
     p params
     p "-----------"
 
-    owner = Owner.find(11)
+    owner = @current_owner
     # Find dogs where the owner_id is not the current_owner_id and the owner_id is not in the to_owner_id of existing matches
     # @dogs = Dog.where.not(owner_id: owner.id).where.not(owner_id: owner.from_matches.pluck(:to_owner_id)).order(Arel.sql('RANDOM()'))
 
