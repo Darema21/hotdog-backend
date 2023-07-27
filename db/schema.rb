@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_22_075937) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_131347) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075937) do
     t.text "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "match_id", null: false
+    t.index ["match_id"], name: "index_comments_on_match_id"
   end
 
   create_table "dogs", force: :cascade do |t|
@@ -120,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_075937) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "matches"
   add_foreign_key "dogs", "breeds"
   add_foreign_key "dogs", "owners"
   add_foreign_key "matches", "owners", column: "from_owner_id"
