@@ -3,7 +3,7 @@ class Api::V1::MatchesController < Api::V1::BaseController
   def create
     @match = create_or_update_match
     if @match.valid?
-      render json: @match, serializer: Api::V1::MatchSerializer
+      render json: @match, serializer: Api::V1::MatchShowSerializer
     else
       render_error
     end

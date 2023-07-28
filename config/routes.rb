@@ -14,15 +14,21 @@ Rails.application.routes.draw do
       end
       resources :owners, only: [:show, :update] do
         member do
-          get :matches, only: [:show, :destroy]
+          get :matches, only: [:index, :show, :destroy]
           post :matches, to: 'matches#create'
         end
       end
       resources :breeds, only: [:index, :show]
 
-      # get 'breeds/:id', to: 'breeds#show_by_id', as: :breed_by_id
-      # get 'breeds/name/:name', to: 'breeds#show_by_name', as: :breed_by_name
-
+      resources :events do
+        member do
+          post :booking, to: 'bookings#create'
+          post :upload_image
+        end
+        collection do
+          get :category, to: 'events#category'
+        end
+      end
     end
   end
 

@@ -175,21 +175,55 @@ dog_image_urls = [
 # puts "Seed data created successfully!"
 
 # # Find the owner with to_owner_id = 2
-to_owner = Owner.find_by(id:11)
-dogs  = Dog.all
-# Create matches
-puts "Creating Matches"
-matches = []
+# to_owner = Owner.find_by(id:11)
+# dogs  = Dog.all
+# # Create matches
+# puts "Creating Matches"
+# matches = []
 
-dogs.each do |dog|
-  match = Match.create(
-    status: "undecided",
-    from_owner_id: dog.owner.id,
-    to_owner_id: to_owner.id,
-    from_owner_decision: "right"
+# dogs.each do |dog|
+#   match = Match.create(
+#     status: "undecided",
+#     from_owner_id: dog.owner.id,
+#     to_owner_id: to_owner.id,
+#     from_owner_decision: "right"
+#   )
+
+#   matches << match
+# end
+
+# Create Events and Bookings
+puts 'Creating Events and Bookings'
+
+categories = ['food', 'music', 'sports', 'nightlife', 'art']
+owners = Owner.all
+
+7.times do
+  category = categories.sample
+  start_time = Faker::Time.forward(days: 5, period: :evening, format: :long)
+
+  title = Faker::TvShows::BigBangTheory.quote[0, 50] # Limit title to 50 characters
+  description = Faker::Lorem.paragraph(sentence_count: 5, supplemental: false, random_sentences_to_add: 4)[0, 300] # Limit description to 300 characters
+
+  owner = owners.sample # Randomly select an owner for the event
+
+  event = Event.new(
+    title: title,
+    description: description,
+    start_time: start_time,
+    address: Faker::Address.full_address,
+    owner: owner, # Assign the selected owner to the event
+    category: category
   )
 
-  matches << match
+  if event.save
+    booking = Booking.create(owner: owner, event: event)
+    if booking.save
+      puts "Event '#{event.id}' created successfully by owner '#{owner.id}', and booking created for owner '#{owner.id}'"
+    else
+      puts "Error creating booking: #{booking.errors.full_messages.join(', ')}"
+    end
+  else
+    puts "Error creating event: #{event.errors.full_messages.join(', ')}"
+  end
 end
-
-puts "Finished seeding"

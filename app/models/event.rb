@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :owner
   has_many :bookings, dependent: :destroy
-  has_one_attached :image # for posters
+  has_one_attached :image
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :description, presence: true, length: { maximum: 300 }
@@ -10,3 +10,4 @@ class Event < ApplicationRecord
   # validates :image, presence: true # to upload event posters
   # validates :user_id, presence: true
   serialize :category
+end

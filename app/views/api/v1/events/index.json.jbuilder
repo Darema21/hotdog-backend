@@ -1,4 +1,4 @@
-json.events @events do |event|
+json.array! @events do |event|
   json.extract! event, :id, :title, :description, :address, :owner_id, :category
   json.start_time event.start_time.strftime('%b %e, %l:%M %p')
   json.address event.address.truncate(30, omission: '...')

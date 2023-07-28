@@ -1,16 +1,15 @@
 class Api::V1::EventsController < Api::V1::BaseController
-  before_action :set_event, only: [ :show, :update, :destroy, :upload_image ]
-  skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
+  # before_action :set_event, only: [ :show, :update, :destroy, :upload_image ]
+  # skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
 
   def index
-    @events = policy_scope(Event).all
+    @events = Event.all
   end
 
   def create
     @event = Event.new(event_params)
     @event.owner = current_owner
 
-    authorize @event
 
     if @event.save
       render :show, status: :created

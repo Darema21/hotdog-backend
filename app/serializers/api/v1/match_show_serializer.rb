@@ -1,5 +1,5 @@
-class Api::V1::MatchSerializer < ActiveModel::Serializer
-  attributes :from_owner_id, :to_owner_id, :from_owner, :to_owner, :from_dog, :to_dog, :status
+class Api::V1::MatchShowSerializer < ActiveModel::Serializer
+  attributes :id, :from_owner, :to_owner, :from_dog, :to_dog, :status, :created_at
 
   def from_owner
     {
