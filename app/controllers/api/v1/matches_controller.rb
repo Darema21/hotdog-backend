@@ -37,12 +37,12 @@ class Api::V1::MatchesController < Api::V1::BaseController
       end
     end
   end
-  
-  # def index
-  #   @matches = Match.includes(:owner, :dog).all
-  #   current_owner = @current_owner
-  #   @my_matches = current_owner.matches
-  # end
+
+  def index
+    @matches = Match.includes(:owner, :dog).all
+    current_owner = @current_owner
+    @my_matches = current_owner.matches
+  end
 
   def show
     owner = Owner.find(params[:owner_id])

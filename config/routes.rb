@@ -19,7 +19,7 @@ Rails.application.routes.draw do
           # resources :comments, only: [:show, :create], module: :matches
         end
         resources :matches, only: [] do
-          resources :comments, only: [:show, :create]
+          resources :comments, only: [:show, :create, :index]
         end
       end
       resources :breeds, only: [:index, :show]
