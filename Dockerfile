@@ -14,7 +14,7 @@ COPY Gemfile* /tmp/
 # COPY package.json /tmp/
 COPY yarn.lock /tmp/
 WORKDIR /tmp
-RUN gem install bundler -v <CHANGE TO STUDENT'S VERSION>
+RUN gem install bundler -v 2.3.0
 RUN bundle install --jobs 5 --retry 5 --without development test
 # RUN yarn install # not needed for APIs
 RUN mkdir /app
