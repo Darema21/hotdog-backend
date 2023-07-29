@@ -11,7 +11,7 @@ RUN apt-get update && apt-get -qqyy install nodejs yarn && rm -rf /var/lib/apt/l
 
 # Install Ruby Gems and node modules
 COPY Gemfile* /tmp/
-COPY package.json /tmp/
+# COPY package.json /tmp/
 COPY yarn.lock /tmp/
 WORKDIR /tmp
 RUN gem install bundler -v <CHANGE TO STUDENT'S VERSION>
