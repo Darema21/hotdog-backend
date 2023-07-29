@@ -182,22 +182,22 @@
 # puts "Seed data created successfully!"
 
 # # Find the owner with to_owner_id = 2
-# to_owner = Owner.find_by(id:22)
-# dogs  = Dog.all
-# # # Create matches
-# puts "Creating Matches"
-# matches = []
+to_owner = Owner.find_by(id:22)
+dogs  = Dog.all
+# # Create matches
+puts "Creating Matches"
+matches = []
 
-# dogs.each do |dog|
-# match = Match.create(
-#      status: "undecided",
-#      from_owner_id: dog.owner.id,
-#      to_owner_id: to_owner.id,
-#      from_owner_decision: "right"
-#    )
+dogs.each do |dog|
+match = Match.create(
+     status: "undecided",
+     from_owner_id: dog.owner.id,
+     to_owner_id: to_owner.id,
+     from_owner_decision: "right"
+   )
 
-#    matches << match
-#  end
+   matches << match
+ end
 
 
 # Create Events and Bookings
