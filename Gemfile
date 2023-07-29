@@ -33,10 +33,13 @@ gem 'jwt'
 
 gem 'rest-client'
 
+gem 'activestorage-aliyun'
+gem 'image_processing'
+
 gem "cloudinary"
 gem "faker"
 # gem "dotenv-rails", groups: [:development, :test]
-gem 'unsplash', '~> 1.0'
+
 gem 'open-uri'
 
 
