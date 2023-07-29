@@ -26,6 +26,13 @@ class Api::V1::DogsController < Api::V1::BaseController
     end
   end
 
+  def upload
+    @dog = Dog.find(params[:id])
+    puts "params #{params}"
+    @dog.image.attach(params[:image])
+    render json: {msg: 'Image upload success!'}
+  end
+
   def show
     @dog = Dog.includes(:owner, images_attachments: :blob).find(params[:id])
     render json: @dog, serializer: Api::V1::DogShowSerializer
@@ -43,7 +50,7 @@ class Api::V1::DogsController < Api::V1::BaseController
   private
 
   def dog_params
-    params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
+    params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address)
   end
 
   def render_error

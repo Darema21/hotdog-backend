@@ -6,6 +6,11 @@ class Api::V1::OwnersController < Api::V1::BaseController
     @matched_dogs = @matches.map(&:dog)
   end
 
+  #adding profile function to get current_owner for profile page
+  def profile
+    owner = Owner.find(params[:id])
+  end
+
   def update
     if @owner.update(owner_params)
       render :show

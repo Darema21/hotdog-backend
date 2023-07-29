@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       post 'login', to: 'sessions#login', as: :login
       resources :dogs do
         member do
-          post :upload_image
+          post :upload
         end
       end
       resources :owners, only: [:show, :update] do
