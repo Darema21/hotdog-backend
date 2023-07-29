@@ -7,7 +7,7 @@ class Api::V1::DogsController < Api::V1::BaseController
 
     p "---------current_owner_dog---------"
     p  current_owner_dog
-    p current_owner_dog.image_urls
+    # p current_owner_dog.image_urlss
     p "---------------------------------"
 
 
@@ -26,11 +26,19 @@ class Api::V1::DogsController < Api::V1::BaseController
                 .where.not(owner_id: matched_owner_ids)
                 .order(Arel.sql('RANDOM()'))
 
-    render json: {
-      dogs: ActiveModel::Serializer::CollectionSerializer.new(@dogs, serializer: Api::V1::DogIndexSerializer),
-      current_owner_dog: current_owner_dog,
-      current_owner_dog_image: current_owner_dog.image_urls
-    }
+    if (current_owner_dog.nil?)
+      render json: {
+        dogs: ActiveModel::Serializer::CollectionSerializer.new(@dogs, serializer: Api::V1::DogIndexSerializer),
+        current_owner_dog: 0,
+        current_owner_dog_image: 0
+      }
+    else
+      render json: {
+        dogs: ActiveModel::Serializer::CollectionSerializer.new(@dogs, serializer: Api::V1::DogIndexSerializer),
+        current_owner_dog: current_owner_dog,
+        current_owner_dog_image: current_owner_dog.image_urls
+      }
+    end
   end
 
   def update
