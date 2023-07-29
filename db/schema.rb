@@ -80,6 +80,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_110118) do
     t.text "description"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.string "owner"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "match_id", null: false
+    t.index ["match_id"], name: "index_comments_on_match_id"
+  end
+
   create_table "dogs", force: :cascade do |t|
     t.string "name"
     t.string "gender"
@@ -136,6 +145,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_110118) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookings", "events"
   add_foreign_key "bookings", "owners"
+  add_foreign_key "comments", "matches"
+
   add_foreign_key "dogs", "breeds"
   add_foreign_key "dogs", "owners"
   add_foreign_key "events", "owners"
