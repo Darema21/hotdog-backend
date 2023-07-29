@@ -182,7 +182,7 @@ puts "Created #{dogs.length} dogs"
 puts "Seed data created successfully!"
 
 # # Find the owner with to_owner_id = 2
-to_owner = Owner.find_by(id:22)
+to_owner = Owner.second
 dogs  = Dog.all
 # # Create matches
 puts "Creating Matches"
