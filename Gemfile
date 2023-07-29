@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://gems.ruby-china.com/'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.2"
@@ -33,6 +33,7 @@ gem 'jwt'
 
 gem 'rest-client'
 
+# gem 'ruby-vips'
 gem 'activestorage-aliyun'
 gem 'image_processing'
 
