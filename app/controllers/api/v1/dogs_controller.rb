@@ -22,7 +22,8 @@ class Api::V1::DogsController < Api::V1::BaseController
 
     render json: {
       dogs: ActiveModel::Serializer::CollectionSerializer.new(@dogs, serializer: Api::V1::DogIndexSerializer),
-      current_owner_dog: current_owner_dog
+      current_owner_dog: current_owner_dog,
+      current_owner_dog_image: current_owner_dog.image_urls
     }
   end
 
