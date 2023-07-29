@@ -9,13 +9,17 @@ Rails.application.routes.draw do
       post 'login', to: 'sessions#login', as: :login
       resources :dogs do
         member do
-          post :upload_image
+          post :upload
         end
       end
       resources :owners, only: [:show, :update] do
         member do
           get :matches, only: [:index, :show, :destroy]
           post :matches, to: 'matches#create'
+          # resources :comments, only: [:show, :create], module: :matches
+        end
+        resources :matches, only: [] do
+          resources :comments, only: [:show, :create, :index]
         end
       end
       resources :breeds, only: [:index, :show]

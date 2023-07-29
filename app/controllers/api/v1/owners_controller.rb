@@ -5,6 +5,12 @@ class Api::V1::OwnersController < Api::V1::BaseController
     @matches = Match.where(status: "like")
                     .where("(from_owner_id = ?) OR (to_owner_id = ?)", owner.id, owner.id)
     render json: @matches, each_serializer: Api::V1::MatchIndexSerializer, current_owner: owner
+
+  end
+
+  #adding profile function to get current_owner for profile page
+  def profile
+    owner = Owner.find(params[:id])
   end
 
   def update

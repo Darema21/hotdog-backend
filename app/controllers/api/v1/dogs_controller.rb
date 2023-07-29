@@ -50,12 +50,29 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
   def create
-    @dog = Dog.new(dog_params)
+    p dog_params[:breed]
+    breed = Breed.where(name:dog_params[:breed])[0]
+    p "-------------breed------------"
+    p breed
+    p "----------------------------"
+    p dog_params
+
+    @dog = Dog.new(
+      dog_params.except(:breed)
+    )
+    @dog.breed = breed
     if @dog.save
-      render :show, status: :created
+      render json: @dog, serializer: Api::V1::DogShowSerializer
     else
       render_error
     end
+  end
+
+  def upload
+    @dog = Dog.find(params[:id])
+    puts "params #{params}"
+    @dog.image.attach(params[:image])
+    render json: {msg: 'Image upload success!'}
   end
 
   def show
@@ -74,9 +91,9 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   private
 
-  # def dog_params
-  #   params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
-  # end
+  def dog_params
+    params.require(:dog).permit(:name, :gender, :breed, :age, :neutered, :vaccinated, :bio, :address, :owner_id)
+  end
 
   def render_error
     render json: { errors: @dog.errors.full_messages },
