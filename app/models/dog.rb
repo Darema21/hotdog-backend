@@ -8,7 +8,7 @@ class Dog < ApplicationRecord
   def image_urls
     if images.attached?
       images.map do |image|
-        image.key
+        image.url
       end
     end
   end

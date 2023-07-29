@@ -7,10 +7,17 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # db/seeds.rb
-require 'json'
-require 'open-uri'
+# require 'json'
+# require 'open-uri'
 
-# Breed descriptions
+# Match.destroy_all
+# Booking.destroy_all
+# Dog.destroy_all
+# Breed.destroy_all
+# Event.destroy_all
+# Owner.destroy_all
+
+# # Breed descriptionss
 # breed_data = [
 #   { name: 'Beagle', image: 'app/assets/images/breeds/beagle.png', description: 'The Beagle is a small to medium-sized dog breed known for its distinctive appearance and keen sense of smell. With its short, sleek coat and droopy ears, the Beagle is an adorable and friendly companion. They are often characterized by their playful and curious nature, making them great family pets.' },
 #   { name: 'Bulldog', image: 'app/assets/images/breeds/american_bulldog.png', description: 'The Bulldog, also known as the English Bulldog, is a sturdy and muscular dog breed with a distinctive wrinkled face and a determined expression. Despite their tough appearance, Bulldogs are known for their gentle and affectionate nature, making them excellent family pets. They are generally calm and docile, preferring a relaxed lifestyle over vigorous exercise.' },
@@ -25,9 +32,9 @@ require 'open-uri'
 #   { name: 'Pug', image: 'app/assets/images/breeds/pug.png', description: 'The Pug is a small dog breed known for its distinctive appearance, with a wrinkled face, a curly tail, and large, expressive eyes. Pugs have a charming and mischievous personality, making them excellent companions for families and individuals. They have a friendly and affectionate nature, often seeking attention and close contact with their owners.' },
 #   { name: 'Poodle (Toy)', image: 'app/assets/images/breeds/toy_poodle.png', description: 'The Toy Poodle is a small and elegant dog breed known for its intelligence, agility, and delightful personality. With their curly and dense coat, they are often considered one of the most hypoallergenic dog breeds. Toy Poodles are highly trainable and excel in activities such as obedience, agility, and even therapy work.' }
 # ]
-# Breed.destroy_all
 
-# # # Creating breeds
+
+# # # # Creating breeds
 # api_key = Rails.application.credentials.dig(:ninjas, :key)
 # breed_data.each do |breed_info|
 #   breed_name = breed_info[:name]
@@ -84,25 +91,25 @@ require 'open-uri'
 # require 'json'
 # require 'open-uri'
 
-# # dog_url = "https://api.unsplash.com/search/photos?query=dog&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
-# # owner_url = "https://api.unsplash.com/search/photos?query=person&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+# # # dog_url = "https://api.unsplash.com/search/photos?query=dog&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
+# # # owner_url = "https://api.unsplash.com/search/photos?query=person&client_id=vxJlLu9p1P2BcV2Aqq0DgLT1owhw_O14_qtCH461gnE"
 
-# # Function to download an image from the given URL
-# # def download_image(url)
-# #   open(url) { |image| image.read }
-# # end
+# # # Function to download an image from the given URL
+# # # def download_image(url)
+# # #   open(url) { |image| image.read }
+# # # end
 
-# # URLs for specific dog and owner images
-dog_image_urls = [
-  "https://images.unsplash.com/photo-1518374835801-2c7d993de05c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
-  "https://images.unsplash.com/photo-1583511655802-41f2ccc2cc8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQxfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1562714529-94d65989df68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1612940960267-4549a58fb257?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE3fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1572566830488-069bcc7fbcec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE1fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1618173745201-8e3bf8978acc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEwfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1588269864631-ced7dff8da0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-  "https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
-]
+# # # URLs for specific dog and owner images
+# dog_image_urls = [
+#   "https://images.unsplash.com/photo-1518374835801-2c7d993de05c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+#   "https://images.unsplash.com/photo-1583511655802-41f2ccc2cc8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQxfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1562714529-94d65989df68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1612940960267-4549a58fb257?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE3fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1572566830488-069bcc7fbcec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE1fHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1618173745201-8e3bf8978acc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEwfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1588269864631-ced7dff8da0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fGRvZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+#   "https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAyfHxkb2d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+# ]
 
 # owner_image_urls = [
 #   "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1748&q=80",
@@ -115,7 +122,7 @@ dog_image_urls = [
 #   "https://images.unsplash.com/photo-1615813967515-e1838c1c5116?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
 # ]
 
-# # # Create owners
+# # # # Create owners
 # puts "Creating Owners"
 # owners = []
 
@@ -140,7 +147,7 @@ dog_image_urls = [
 
 # puts "Created #{owners.length} owners"
 
-# # # Create dogs and assign each dog to a unique owner
+#  # Create dogs and assign each dog to a unique owner
 # puts "Creating Dogs"
 # breeds = Breed.all
 
@@ -162,7 +169,7 @@ dog_image_urls = [
 #       breed: breed
 #     )
 
-# #     # Attach dog photo using the specified URL
+# # #     # Attach dog photo using the specified URL
 #     dog_photo_file = URI.open(dog_image_urls.sample)
 #     dog.images.attach(io: dog_photo_file, filename: "#{dog.name.parameterize}_dog.jpg", content_type: 'image/jpeg')
 #     "created a dog for Owner #{owner.id}"
@@ -175,22 +182,23 @@ dog_image_urls = [
 # puts "Seed data created successfully!"
 
 # # Find the owner with to_owner_id = 2
-# to_owner = Owner.find_by(id:11)
+# to_owner = Owner.find_by(id:22)
 # dogs  = Dog.all
-# # Create matches
+# # # Create matches
 # puts "Creating Matches"
 # matches = []
 
 # dogs.each do |dog|
-#   match = Match.create(
-#     status: "undecided",
-#     from_owner_id: dog.owner.id,
-#     to_owner_id: to_owner.id,
-#     from_owner_decision: "right"
-#   )
+# match = Match.create(
+#      status: "undecided",
+#      from_owner_id: dog.owner.id,
+#      to_owner_id: to_owner.id,
+#      from_owner_decision: "right"
+#    )
 
-#   matches << match
-# end
+#    matches << match
+#  end
+
 
 # Create Events and Bookings
 puts 'Creating Events and Bookings'

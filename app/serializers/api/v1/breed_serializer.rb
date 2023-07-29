@@ -5,7 +5,7 @@ class Api::V1::BreedSerializer < ActiveModel::Serializer
              :average_life_expectancy, :average_weight, :average_height, :best_matches, :image_url
 
   def image_url
-    object.image.key
+    object.image.url
   end
 
   def friendliness_index

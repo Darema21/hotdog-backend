@@ -7,7 +7,7 @@ class Breed < ApplicationRecord
 
   def image_url
     if image.attached?
-      image.key
+      image.url
     end
   end
 

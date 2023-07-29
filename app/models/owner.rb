@@ -12,7 +12,7 @@ class Owner < ApplicationRecord
 
   def image_url
     if photo.attached?
-      photo.key
+      photo.url
     end
   end
 
