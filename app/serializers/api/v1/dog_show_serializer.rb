@@ -1,5 +1,4 @@
 class Api::V1::DogShowSerializer < ActiveModel::Serializer
-  include Rails.application.routes.url_helpers
 
   attributes :id, :name, :gender, :age, :neutered, :vaccinated, :address, :bio, :breed, :owner, :breed, :image_urls
 
@@ -15,8 +14,8 @@ class Api::V1::DogShowSerializer < ActiveModel::Serializer
       gender: object.owner.gender,
       bio: object.owner.bio,
       wechat_id: object.owner.wechat_id,
-      active: object.owner.active,
-
+      image_url: object.owner.image_url,
+      active: object.owner.active
     }
   end
 
