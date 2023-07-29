@@ -1,5 +1,5 @@
 class Api::V1::EventsController < Api::V1::BaseController
-  # before_action :set_event, only: [ :show, :update, :destroy, :upload_image ]
+  before_action :set_event, only: [ :show, :update, :destroy, :upload_image ]
   # skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
 
   def index
@@ -59,7 +59,6 @@ class Api::V1::EventsController < Api::V1::BaseController
 
   def set_event
     @event = Event.find(params[:id])
-    authorize @event
   end
 
   def event_params

@@ -1,6 +1,7 @@
 class Api::V1::BookingsController < Api::V1::BaseController
-  skip_before_action :verify_authenticity_token, only: [:create]
+  # skip_before_action :verify_authenticity_token, only: [:create]
   before_action :set_event, only: :create
+  before_action :verify_request
   # after_action :update_for_hire, only: [:create, :destroy]
 
   def create
@@ -13,7 +14,7 @@ class Api::V1::BookingsController < Api::V1::BaseController
       if @booking.save
         render json: @booking.event
       else
-        render "events/show", status: :unprocessable_entity
+        render json: { error: 'Failed to create booking' }, status: :unprocessable_entity
       end
     end
   end
@@ -26,12 +27,12 @@ class Api::V1::BookingsController < Api::V1::BaseController
   end
 
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:booking][:event_id])
   end
 
   def booking_params
-    # { event_id: 1, owner_id: 1 }
-    # { booking: { event_id: 1, owner_id: 1 } }
     params.require(:booking).permit(:event_id, :owner_id)
   end
+
+
 end
