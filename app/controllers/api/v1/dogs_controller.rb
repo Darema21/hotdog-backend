@@ -74,9 +74,9 @@ class Api::V1::DogsController < Api::V1::BaseController
 
   private
 
-  def dog_params
-    params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
-  end
+  # def dog_params
+  #   params.require(:dog).permit(:name, :gender, :age, :neutered, :vaccinated, :bio, :address, images: [])
+  # end
 
   def render_error
     render json: { errors: @dog.errors.full_messages },
