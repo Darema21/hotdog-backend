@@ -38,21 +38,19 @@ class Api::V1::EventsController < Api::V1::BaseController
     end
   end
 
-  def destroy
-    if @event.destroy
-      head :no_content
-    else
-      render_error
-    end
-  end
+  # def destroy
+  #   if @event.destroy
+  #   else
+  #     render_error
+  #   end
+  # end
 
   def category
     category = params[:category]
     @events = Event.where(category: category)
     render :index
-    # authorize @event
-    @event.destroy
-    head :no_content
+    # # authorize @event
+    # @event.destroy
   end
 
   private

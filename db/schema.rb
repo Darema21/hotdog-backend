@@ -146,7 +146,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_110118) do
   add_foreign_key "bookings", "events"
   add_foreign_key "bookings", "owners"
   add_foreign_key "comments", "matches"
-
   add_foreign_key "dogs", "breeds"
   add_foreign_key "dogs", "owners"
   add_foreign_key "events", "owners"

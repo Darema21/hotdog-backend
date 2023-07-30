@@ -1,7 +1,7 @@
 class Api::V1::BookingsController < Api::V1::BaseController
   # skip_before_action :verify_authenticity_token, only: [:create]
   before_action :set_event, only: :create
-  before_action :verify_request
+  # before_action :verify_request
   # after_action :update_for_hire, only: [:create, :destroy]
 
   def create
