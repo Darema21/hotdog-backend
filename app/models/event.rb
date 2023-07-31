@@ -1,4 +1,6 @@
 class Event < ApplicationRecord
+  include ImageUrlConcern
+
   belongs_to :owner
   has_many :bookings, dependent: :destroy
   has_one_attached :image
@@ -10,4 +12,11 @@ class Event < ApplicationRecord
   # validates :image, presence: true # to upload event posters
   # validates :user_id, presence: true
   serialize :category
+
+  def image_url
+    if image.attached?
+      image.url
+    end
+  end
+
 end

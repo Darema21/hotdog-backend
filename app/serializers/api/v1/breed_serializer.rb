@@ -1,5 +1,4 @@
 class Api::V1::BreedSerializer < ActiveModel::Serializer
-  include CloudinaryHelper
 
   attributes :name, :description, :friendliness_index, :maintenance_index, :activity_index, :trainability_index,
              :average_life_expectancy, :average_weight, :average_height, :best_matches, :image_url
