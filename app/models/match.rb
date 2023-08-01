@@ -2,6 +2,8 @@ class Match < ApplicationRecord
   belongs_to :from_owner, class_name: 'Owner', foreign_key: 'from_owner_id'
   belongs_to :to_owner, class_name: 'Owner', foreign_key: 'to_owner_id'
 
+  has_many :comments
+
   validates :from_owner_id, uniqueness: { scope: :to_owner_id, message: 'You can only have one match with the same owner.' }
   validate :cannot_match_with_self
 

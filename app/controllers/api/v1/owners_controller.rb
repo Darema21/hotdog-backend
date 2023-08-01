@@ -8,7 +8,6 @@ class Api::V1::OwnersController < Api::V1::BaseController
 
   end
 
-  #adding profile function to get current_owner for profile page
   def profile
     owner = Owner.find(params[:id])
   end
@@ -29,7 +28,7 @@ class Api::V1::OwnersController < Api::V1::BaseController
   private
 
   def owner_params
-    params.require(:owner).permit(:name, :age, :gender, :active)
+    params.require(:owner).permit(:name, :image_url)
   end
 
   def render_error

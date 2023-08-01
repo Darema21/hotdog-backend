@@ -33,7 +33,7 @@ gem 'jwt'
 
 gem 'rest-client'
 
-# gem 'ruby-vips'
+#gem 'ruby-vips'
 gem 'activestorage-aliyun'
 gem 'image_processing'
 

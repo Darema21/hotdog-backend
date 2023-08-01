@@ -302,6 +302,7 @@ DEPENDENCIES
   pundit
   rails (~> 7.0.5)
   rest-client
+  ruby-vips
   selenium-webdriver
   simple_form!
   sprockets-rails
