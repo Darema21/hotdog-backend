@@ -11,7 +11,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
     @comment = Comment.new(comment_params)
     @comment.match_id = params[:match_id]
     if @comment.save
-      render :show, status: :created
+      render json: @comment, serializer: Api::V1::CommentSerializer
     else
       render_error
     end

@@ -1,9 +1,10 @@
-class Api::V1::MatchShowSerializer < ActiveModel::Serializer
-  attributes :id, :message, :owner_id, :match_id
+class Api::V1::CommentSerializer < ActiveModel::Serializer
+  attributes :id, :message, :match_id, :owner
 
   def owner
     {
-      name: object.name
+      id: object.owner.id,
+      name: object.owner.name
     }
   end
 
