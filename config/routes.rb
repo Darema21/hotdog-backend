@@ -12,16 +12,18 @@ Rails.application.routes.draw do
           post :upload
         end
       end
+
       resources :owners, only: [:show, :update] do
         member do
           get :matches, only: [:index, :show, :destroy]
           post :matches, to: 'matches#create'
-          # resources :comments, only: [:show, :create], module: :matches
-        end
-        resources :matches, only: [] do
-          resources :comments, only: [:show, :create, :index]
         end
       end
+
+      resources :matches, only: [] do
+        resources :comments, only: [:show, :create, :index]
+      end
+
       resources :breeds, only: [:index, :show]
 
       resources :events do

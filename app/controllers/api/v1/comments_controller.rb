@@ -1,15 +1,17 @@
 class Api::V1::CommentsController < Api::V1::BaseController
 
   def index
-    @match = Match.find(params[:id])
-    comment = Comment.includes(:match_id, image_attachment: :blob).all
-    render json: @comment.as_json(only: [:match_id, :name], methods: :image_url)
+    @match = Match.find(params[:match_id])
+    @comments = @match.comments
+    render json: @comments
   end
+
 
   def create
     @comment = Comment.new(comment_params)
+    @comment.match_id = params[:match_id]
     if @comment.save
-      render :show, status: :created
+      render json: @comment, serializer: Api::V1::CommentSerializer
     else
       render_error
     end
@@ -18,7 +20,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
   private
 
   def comment_params
-    params.require(:comment).permit(:comment, images: [])
+    params.require(:comment).permit(:message, :owner_id, :match_id)
   end
 
   def render_error
@@ -26,5 +28,3 @@ class Api::V1::CommentsController < Api::V1::BaseController
     status: :unprocessable_entity
   end
 end
-
-# add jbuilder file

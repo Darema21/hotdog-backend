@@ -7,9 +7,8 @@ class Api::V1::DogsController < Api::V1::BaseController
 
     p "---------current_owner_dog---------"
     p  current_owner_dog
-    # p current_owner_dog.image_urlss
+    # p current_owner_dog.image_urls
     p "---------------------------------"
-
 
     subquery = owner.from_matches.select(:to_owner_id)
     matched_owner_ids = owner.to_matches.where(status: ["like", "dislike"]).pluck(:from_owner_id)
@@ -101,5 +100,3 @@ class Api::V1::DogsController < Api::V1::BaseController
   end
 
 end
-
-# index, create, update, show, destroy
