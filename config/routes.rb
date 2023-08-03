@@ -15,10 +15,12 @@ Rails.application.routes.draw do
 
       resources :owners, only: [:show, :update] do
         member do
-          get :matches, only: [:index, :show, :destroy]
+          get :matches, only: [:index, :destroy]
           post :matches, to: 'matches#create'
         end
       end
+
+      resources :matches, only: [:show]
 
       resources :matches, only: [] do
         resources :comments, only: [:show, :create, :index]

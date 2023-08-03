@@ -1,6 +1,13 @@
 class Api::V1::MatchShowSerializer < ActiveModel::Serializer
   attributes :id, :from_owner, :to_owner, :from_dog, :to_dog, :status, :created_at
 
+  def comments
+    {
+      id: object.owner.comment.id,
+      message: object.owner.comment.message
+    }
+  end
+
   def from_owner
     {
       id: object.from_owner.id,

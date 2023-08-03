@@ -8,6 +8,11 @@ class Api::V1::OwnersController < Api::V1::BaseController
 
   end
 
+  def show
+    @owner = Owner.find(params[:id])
+    render json: @owner, serializer: Api::V1::OwnerSerializer
+  end
+
   def profile
     owner = Owner.find(params[:id])
   end

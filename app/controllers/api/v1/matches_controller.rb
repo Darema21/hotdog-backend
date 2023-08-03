@@ -10,10 +10,15 @@ class Api::V1::MatchesController < Api::V1::BaseController
   end
 
   def show
-    owner = Owner.find(params[:owner_id])
-    @match = Match.includes(:owner, :dog).find(params[:id])
-    owner.match
+    match = Match.find(params[:id])
+
+    if match
+      render json: match, status: :ok, serializer: Api::V1::MatchShowSerializer
+    else
+      render json: { error: 'Match not found' }, status: :not_found
+    end
   end
+
 
   def destroy
     current_owner = Owner.find(params[:id])
@@ -32,14 +37,21 @@ class Api::V1::MatchesController < Api::V1::BaseController
     to_owner_id = params[:match][:to_owner_id]
     direction = params[:match][:from_owner_decision]
 
+    puts "from_owner_id: #{from_owner_id}"
+    puts "to_owner_id: #{to_owner_id}"
+    puts "direction: #{direction}"
+
+
     existing_match = Match.find_by(
       "(from_owner_id = :from_owner_id AND to_owner_id = :to_owner_id) OR (from_owner_id = :to_owner_id AND to_owner_id = :from_owner_id)",
       { from_owner_id: from_owner_id, to_owner_id: to_owner_id }
     )
 
     if existing_match
+      puts "Existing match found: #{existing_match.id}"
       update_existing_match(existing_match, direction)
     else
+      puts "No existing match found. Creating a new match..."
       create_new_match(from_owner_id, to_owner_id, direction)
     end
   end

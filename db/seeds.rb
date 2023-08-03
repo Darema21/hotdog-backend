@@ -13,7 +13,7 @@ require 'open-uri'
 Match.destroy_all
 Booking.destroy_all
 Dog.destroy_all
-# Breed.destroy_all
+Breed.destroy_all
 Event.destroy_all
 Owner.destroy_all
 
